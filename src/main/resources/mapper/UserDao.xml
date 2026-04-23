@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.dao.UserDao">
+
+    <resultMap id="StudentResultMap" type="com.zxc.model.Student">
+        <id property="stuId" column="stuId"/>
+        <result property="stuName" column="stuName"/>
+        <result property="stuPass" column="stuPass"/>
+        <result property="insId" column="insId"/>
+        <result property="insName" column="insName"/>
+    </resultMap>
+
+    <resultMap id="TeacherResultMap" type="com.zxc.model.Teacher">
+        <id property="teaId" column="teaId"/>
+        <result property="teaName" column="teaName"/>
+        <result property="teaPass" column="teaPass"/>
+    </resultMap>
+
+    <select id="selectStuById" resultMap="StudentResultMap">
+        SELECT s.stuId, s.stuName, s.stuPass, s.insId, i.insName
+        FROM Student s
+        LEFT JOIN Institution i ON s.insId = i.insId
+        WHERE s.stuId = #{id}
+    </select>
+
+    <select id="selectTeaById" resultMap="TeacherResultMap">
+        SELECT teaId, teaName, teaPass
+        FROM Teacher
+        WHERE teaId = #{id}
+    </select>
+
+    <update id="updateStuPass">
+        UPDATE Student SET stuPass = #{stuPass} WHERE stuId = #{stuId}
+    </update>
+
+    <update id="updateTeaPass">
+        UPDATE Teacher SET teaPass = #{teaPass} WHERE teaId = #{teaId}
+    </update>
+
+    <select id="queryAllTeacher" resultMap="TeacherResultMap">
+        SELECT teaId, teaName, teaPass FROM Teacher
+    </select>
+</mapper>

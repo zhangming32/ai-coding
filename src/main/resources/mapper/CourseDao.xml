@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.dao.CourseDao">
+
+    <resultMap id="CourseResultMap" type="com.zxc.model.Course">
+        <id property="classId" column="classId"/>
+        <result property="className" column="className"/>
+        <result property="classNum" column="classNum"/>
+        <result property="teaId" column="teaId"/>
+        <result property="teaName" column="teaName"/>
+        <result property="classChooseNum" column="classChooseNum"/>
+    </resultMap>
+
+    <resultMap id="InstitutionResultMap" type="com.zxc.model.Institution">
+        <id property="insId" column="insId"/>
+        <result property="insName" column="insName"/>
+    </resultMap>
+
+    <resultMap id="StudentResultMap" type="com.zxc.model.Student">
+        <id property="stuId" column="stuId"/>
+        <result property="stuName" column="stuName"/>
+        <result property="tempScore" column="score"/>
+    </resultMap>
+
+    <select id="queryCourseById" resultMap="CourseResultMap">
+        SELECT c.classId, c.className, c.classNum, c.teaId, t.teaName, c.classChooseNum
+        FROM Course c
+        LEFT JOIN Teacher t ON c.teaId = t.teaId
+        WHERE c.teaId = #{id}
+    </select>
+
+    <select id="queryAllIns" resultMap="InstitutionResultMap">
+        SELECT insId, insName FROM Institution
+    </select>
+
+    <insert id="insertCourse" useGeneratedKeys="true" keyProperty="classId">
+        INSERT INTO Course (className, classNum, teaId, classChooseNum)
+        VALUES (#{className}, #{classNum}, #{teaId}, 0)
+    </insert>
+
+    <update id="updateCourse">
+        UPDATE Course SET className = #{className}, classNum = #{classNum}
+        WHERE classId = #{classId}
+    </update>
+
+    <delete id="deleteCourseById">
+        DELETE FROM Course WHERE classId = #{id}
+    </delete>
+
+    <update id="addChooseNum">
+        UPDATE Course SET classChooseNum = classChooseNum + 1 WHERE classId = #{id}
+    </update>
+
+    <update id="downChooseNum">
+        UPDATE Course SET classChooseNum = classChooseNum - 1 WHERE classId = #{id}
+    </update>
+
+    <insert id="addCourseChoose">
+        INSERT INTO Course_choose (stuId, classId, score)
+        VALUES (#{stuId}, #{classId}, 0)
+    </insert>
+
+    <delete id="deleteCourseChoose">
+        DELETE FROM Course_choose WHERE stuId = #{stuId} AND classId = #{classId}
+    </delete>
+
+    <update id="updateScore">
+        UPDATE Course_choose SET score = #{score}
+        WHERE classId = #{classId} AND stuId = #{stuId}
+    </update>
+
+    <select id="queryCourseIdByStuId" resultType="int">
+        SELECT classId FROM Course_choose WHERE stuId = #{stuid}
+    </select>
+
+    <select id="queryCourse" resultMap="CourseResultMap">
+        SELECT c.classId, c.className, c.classNum, c.teaId, t.teaName, c.classChooseNum
+        FROM Course c
+        LEFT JOIN Teacher t ON c.teaId = t.teaId
+        WHERE c.classId = #{id}
+    </select>
+
+    <select id="queryInsNameByCourse" resultType="string">
+        SELECT i.insName
+        FROM Course_limit cl
+        LEFT JOIN Institution i ON cl.insId = i.insId
+        WHERE cl.classId = #{id}
+    </select>
+
+    <select id="selectCourseLimit" resultType="int">
+        SELECT insId FROM Course_limit WHERE classId = #{classId}
+    </select>
+
+    <insert id="insertInsLimit">
+        INSERT INTO Course_limit (classId, insId) VALUES (#{classId}, #{insId})
+    </insert>
+
+    <delete id="deleteInsLimit">
+        DELETE FROM Course_limit WHERE classId = #{classId}
+    </delete>
+
+    <select id="queryStuByCourseId" resultMap="StudentResultMap">
+        SELECT s.stuId, s.stuName, cc.score
+        FROM Course_choose cc
+        LEFT JOIN Student s ON cc.stuId = s.stuId
+        WHERE cc.classId = #{id}
+    </select>
+
+    <select id="queryStuByStuId" resultMap="StudentResultMap">
+        SELECT s.stuId, s.stuName, cc.score
+        FROM Course_choose cc
+        LEFT JOIN Student s ON cc.stuId = s.stuId
+        WHERE cc.classId = #{classid} AND cc.stuId = #{stuid}
+    </select>
+
+    <select id="queryAllCourse" resultMap="CourseResultMap">
+        SELECT c.classId, c.className, c.classNum, c.teaId, t.teaName, c.classChooseNum
+        FROM Course c
+        LEFT JOIN Teacher t ON c.teaId = t.teaId
+    </select>
+
+    <select id="queryAllByInsId" resultMap="CourseResultMap">
+        SELECT c.classId, c.className, c.classNum, c.teaId, t.teaName, c.classChooseNum
+        FROM Course c
+        LEFT JOIN Teacher t ON c.teaId = t.teaId
+        LEFT JOIN Course_limit cl ON c.classId = cl.classId
+        WHERE cl.insId = #{id}
+    </select>
+
+    <delete id="deleteCourseChooseByCourseId">
+        DELETE FROM Course_choose WHERE classId = #{classId}
+    </delete>
+</mapper>
