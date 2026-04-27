@@ -317,9 +317,30 @@ VALUES (#{stuId}, #{classId}, 0)
 
 ---
 
+## 决策16: 学生信息显示功能
+
+**决策时间**: 2026-04-27
+
+**决策内容**: 在课程列表和已选课程页面标题后显示当前登录学生的学号和学院信息
+
+**决策依据**: 
+- 新需求要求在页面标题后显示学生信息
+- Session中已存储stuid，可通过UserService获取完整学生信息
+- Student对象包含stuId和insName字段
+- Bootstrap的<small>标签适合显示次要信息
+
+**决策结果**:
+- 在StudentController的courseList和checkedCourseList方法中添加studentInfo属性
+- 修改courseList.jsp和checkedCourseList.jsp页面标题
+- 使用Bootstrap的<small>标签以小号字体显示学号和学院
+- 更新openspec/specs/student/spec.md添加学生信息显示需求
+
+---
+
 ## 总结
 
-以上15个决策项覆盖了项目的主要技术选型、架构设计、业务逻辑实现等方面。所有决策基于规范文档的要求，确保生成的代码符合 SDD 开发规范。
+以上16个决策项覆盖了项目的主要技术选型、架构设计、业务逻辑实现等方面。所有决策基于规范文档的要求，确保生成的代码符合 SDD 开发规范。
 
-文档版本: v1.0
+文档版本: v1.1
 创建日期: 2026-04-23
+更新日期: 2026-04-27

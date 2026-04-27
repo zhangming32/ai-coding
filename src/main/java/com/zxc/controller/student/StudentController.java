@@ -71,6 +71,7 @@ public class StudentController {
         model.addAttribute("paging", pageService.subList(page, courseService.queryAllCourse(stuid)));
         model.addAttribute("teaList", userService.queryAllTeacher());
         model.addAttribute("insList", courseService.queryAllIns());
+        model.addAttribute("studentInfo", userService.getStuInfoById(stuid));
         return "student/courseList";
     }
 
@@ -114,6 +115,7 @@ public class StudentController {
     public String checkedCourseList(Model model, HttpServletRequest request) {
         int stuid = (int) request.getSession().getAttribute("stuid");
         model.addAttribute("courseList", courseService.queryStuCourse(stuid));
+        model.addAttribute("studentInfo", userService.getStuInfoById(stuid));
         return "student/checkedCourseList";
     }
 

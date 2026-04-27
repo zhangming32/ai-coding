@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h1>课程列表</h1>
+            <h1>课程列表 <small>学号: ${studentInfo.stuId} | 学院: ${studentInfo.insName}</small></h1>
         </div>
         <% if (request.getAttribute("msg") != null) { %>
             <div class="alert alert-warning">${msg}</div>

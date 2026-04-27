@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h1>已选课程</h1>
+            <h1>已选课程 <small>学号: ${studentInfo.stuId} | 学院: ${studentInfo.insName}</small></h1>
         </div>
         <table class="table table-striped">
             <thead>
