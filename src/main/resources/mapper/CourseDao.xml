@@ -130,4 +130,46 @@
     <delete id="deleteCourseChooseByCourseId">
         DELETE FROM Course_choose WHERE classId = #{classId}
     </delete>
+
+    <select id="queryInsIdByCourseId" resultType="int">
+        SELECT insId FROM Course_limit WHERE classId = #{classId}
+    </select>
+
+    <select id="selectNameByInsId" resultType="string">
+        SELECT insName FROM Institution WHERE insId = #{insId}
+    </select>
+
+    <select id="queryCourseInfoById" resultMap="CourseResultMap">
+        SELECT c.classId, c.className, c.classNum, c.teaId, t.teaName, c.classChooseNum
+        FROM Course c
+        LEFT JOIN Teacher t ON c.teaId = t.teaId
+        WHERE c.classId = #{classId}
+    </select>
+
+    <select id="selectTeaNameByTeaId" resultType="string">
+        SELECT teaName FROM Teacher WHERE teaId = #{teaId}
+    </select>
+
+    <select id="selectCourseByClassId" resultMap="CourseResultMap">
+        SELECT c.classId, c.className, c.classNum, c.teaId, t.teaName, c.classChooseNum
+        FROM Course c
+        LEFT JOIN Teacher t ON c.teaId = t.teaId
+        WHERE c.classId = #{classId}
+    </select>
+
+    <select id="selectScore" resultType="int">
+        SELECT score FROM Course_choose WHERE classId = #{classId} AND stuId = #{stuId}
+    </select>
+
+    <delete id="deleteStuByClassId">
+        DELETE FROM Course_choose WHERE classId = #{classId}
+    </delete>
+
+    <delete id="deleteLimitByClassId">
+        DELETE FROM Course_limit WHERE classId = #{classId}
+    </delete>
+
+    <select id="selectInsIdByClassId" resultType="int">
+        SELECT insId FROM Course_limit WHERE classId = #{classId}
+    </select>
 </mapper>

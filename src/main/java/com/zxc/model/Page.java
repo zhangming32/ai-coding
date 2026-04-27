@@ -10,7 +10,7 @@ public class Page<T> {
     private int totalNum;
 
     public Page() {
-        this.pageSize = 10;
+        this.pageSize = 6;
     }
 
     public List<T> getList() {

@@ -46,6 +46,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = new Course();
         course.setClassName(name);
         course.setClassNum(Integer.parseInt(num));
+        course.setClassChooseNum(0);
         course.setTeaId(teaid);
         courseDao.insertCourse(course);
         return course.getClassId();
@@ -155,7 +156,7 @@ public class CourseServiceImpl implements CourseService {
     public boolean checkStuIns(int classId, int stuId) {
         List<Integer> limitInsIds = courseDao.selectCourseLimit(classId);
         if (limitInsIds == null || limitInsIds.isEmpty()) {
-            return true;
+            return false;
         }
         Student student = userDao.selectStuById(stuId);
         if (student == null) {
@@ -180,6 +181,10 @@ public class CourseServiceImpl implements CourseService {
         for (Integer courseId : courseIds) {
             Course course = queryCourse(courseId);
             if (course != null) {
+                Course_choose cc = new Course_choose();
+                cc.setClassId(courseId);
+                cc.setStuId(stuId);
+                course.setScore(courseDao.selectScore(cc));
                 courses.add(course);
             }
         }

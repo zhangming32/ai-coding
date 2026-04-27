@@ -50,4 +50,22 @@ public interface CourseDao {
     List<Course> queryAllByInsId(@Param("id") int id);
 
     void deleteCourseChooseByCourseId(@Param("classId") int classId);
+
+    List<Integer> queryInsIdByCourseId(@Param("classId") int classId);
+
+    String selectNameByInsId(@Param("insId") int insId);
+
+    Course queryCourseInfoById(@Param("classId") int classId);
+
+    String selectTeaNameByTeaId(@Param("teaId") int teaId);
+
+    Course selectCourseByClassId(@Param("classId") int classId);
+
+    int selectScore(Course_choose course_choose);
+
+    void deleteStuByClassId(@Param("classId") int classId);
+
+    void deleteLimitByClassId(@Param("classId") int classId);
+
+    List<Integer> selectInsIdByClassId(@Param("classId") int classId);
 }
